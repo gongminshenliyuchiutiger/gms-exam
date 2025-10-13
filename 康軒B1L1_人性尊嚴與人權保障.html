@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人性尊嚴與人權保障：神對優測驗系統</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles and animations */
+        body {
+            box-sizing: border-box;
+            overflow-x: hidden;
+            font-family: 'Noto Sans TC', sans-serif; /* 設定中文字體 */
+            background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%239ebee2" fill-opacity="0.1" fill-rule="evenodd"%3E%3Cpath d="M0 0h30v30H0V0zm10 10h10v10H10V10zm10 20h10v10H20V30zm-10 10h10v10H10V40z"/%3E%3C/g%3E%3C/svg%3E'); /* 微妙的幾何背景圖案 */
+            background-repeat: repeat;
+            background-attachment: fixed; /* 讓背景固定 */
+        }
+
+        /* 自定義動畫 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @keyframes pulseSlow {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.03); opacity: 0.9; }
+        }
+
+        @keyframes bounceSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            /* 優化：增加 will-change 提示 */
+            will-change: transform; 
+        }
+        
+        .fade-in { animation: fadeIn 0.6s ease-out forwards; }
+        .slide-in-up { animation: slideInUp 0.7s ease-out forwards; }
+        .slide-in-left { animation: slideInLeft 0.5s ease-out forwards; }
+        .pop-in { animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; }
+        .bounce-animation { animation: bounce 1s ease-in-out; }
+        .pulse-slow { animation: pulseSlow 2s infinite ease-in-out; }
+        .bounce-slow { animation: bounceSlow 1.5s infinite ease-in-out alternate; }
+        
+        /* 動畫延遲 */
+        .animation-delay-100ms { animation-delay: 0.1s; }
+        .animation-delay-200ms { animation-delay: 0.2s; }
+        .animation-delay-300ms { animation-delay: 0.3s; }
+        .animation-delay-400ms { animation-delay: 0.4s; }
+        .animation-delay-500ms { animation-delay: 0.5s; }
+        .animation-delay-600ms { animation-delay: 0.6s; }
+
+        /* 答題按鈕效果 */
+        .correct {
+            background-color: #10b981 !important; /* 綠色 */
+            color: white !important;
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .incorrect {
+            background-color: #ef4444 !important; /* 紅色 */
+            color: white !important;
+            transform: scale(0.98);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .option-button {
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .option-button:hover:not(.correct):not(.incorrect) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        
+        /* 吉祥物 */
+        .mascot {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 80px;
+            height: 80px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            animation: mascotIdle 2s ease-in-out infinite alternate;
+        }
+        
+        .mascot:hover {
+            animation: mascotGlow 1s ease-in-out infinite alternate, mascotShake 0.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px #ff6b6b) drop-shadow(0 0 30px #4ecdc4) drop-shadow(0 0 40px #45b7d1) drop-shadow(0 0 50px #96ceb4);
+        }
+
+        @keyframes mascotIdle {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+        
+        @keyframes mascotGlow {
+            0% { filter: drop-shadow(0 0 10px #ff6b6b) drop-shadow(0 0 20px #4ecdc4); transform: scale(1); }
+            25% { filter: drop-shadow(0 0 15px #4ecdc4) drop-shadow(0 0 25px #45b7d1); transform: scale(1.05); }
+            50% { filter: drop-shadow(0 0 20px #45b7d1) drop-shadow(0 0 30px #96ceb4); transform: scale(1.1); }
+            75% { filter: drop-shadow(0 0 15px #96ceb4) drop-shadow(0 0 25px #feca57); transform: scale(1.05); }
+            100% { filter: drop-shadow(0 0 10px #feca57) drop-shadow(0 0 20px #ff6b6b); transform: scale(1); }
+        }
+        
+        @keyframes mascotShake {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            25% { transform: translateX(-2px) rotate(-1deg); }
+            50% { transform: translateX(2px) rotate(1deg); }
+            75% { transform: translateX(-1px) rotate(-0.5deg); }
+        }
+        
+        /* 浮動背景元素 */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .element-icon {
+            position: absolute;
+            color: rgba(59, 130, 246, 0.08); /* 降低透明度 */
+            animation: float 15s infinite linear;
+            font-size: clamp(1.5rem, 5vw, 2.5rem); /* 響應式字體大小 */
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8; /* 最大透明度 */
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .element-icon:nth-child(odd) { animation-direction: reverse; } /* 部分元素反向運動 */
+        .element-icon:nth-child(2n) { animation-delay: -5s; color: rgba(16, 185, 129, 0.08); }
+        .element-icon:nth-child(3n) { animation-delay: -10s; color: rgba(245, 158, 11, 0.08); }
+        .element-icon:nth-child(4n) { animation-delay: -2s; color: rgba(239, 68, 68, 0.08); }
+        .element-icon:nth-child(5n) { animation-delay: -7s; color: rgba(139, 92, 246, 0.08); }
+    </style>
+</head>
+<body class="min-h-screen bg-blue-50 font-sans text-gray-800">
+    <div id="app" class="min-h-screen bg-blue-50 relative">
+        <!-- Floating Elements Background -->
+        <div class="floating-elements" id="floating-elements"></div>
+        
+        <!-- Mascot -->
+        <img src="image/LiyuChillGuy.svg" alt="吉祥物" class="mascot" onerror="this.style.display='none';" title="點我有驚喜！" onclick="mascotClick()">
+        
+        <!-- Splash Screen (起始畫面) -->
+        <div id="splash-screen" class="min-h-screen flex flex-col items-center justify-center p-6 bg-cover bg-center">
+            <main class="text-center max-w-5xl mx-auto fade-in">
+                <div class="mb-8">
+                    <div class="relative inline-block">
+                        <i class="fas fa-hand-holding-heart text-8xl md:text-9xl text-blue-600 drop-shadow-lg"></i>
+                        <i class="fas fa-balance-scale absolute -top-4 -right-4 text-4xl md:text-5xl text-green-500 animate-pulse"></i>
+                    </div>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-800 mb-6 leading-tight drop-shadow-md">
+                                        人性尊嚴與人權保障
+                                        <br>
+                    <span class="text-blue-600">神對優測驗系統</span>
+                </h1>
+                <div class="flex flex-col md:flex-row items-center justify-center mb-8 gap-3">
+                    <div class="flex items-center text-xl md:text-2xl text-gray-600 bg-blue-100 py-2 px-4 rounded-full shadow-inner">
+                        <i class="fas fa-graduation-cap text-blue-500 mr-3 bounce-slow"></i>
+                        <p>尊嚴維護神對優</p>
+                    </div>
+
+                    <div class="flex items-center text-xl md:text-2xl text-gray-600 bg-yellow-100 py-2 px-4 rounded-full shadow-inner">
+                        <i class="fas fa-lightbulb text-2xl text-yellow-500 mr-3 bounce-slow"></i>
+                        <p>人權保障神無憂</p>
+                    </div>
+                </div>
+                <div class="mb-8 p-4 bg-white rounded-xl shadow-lg slide-in-up">
+                    <label for="player-name-input" class="block text-xl font-bold text-blue-700 mb-3">
+                        <i class="fas fa-user-circle mr-2"></i>輸入您的姓名，開啟挑戰！
+                    </label>
+                    <input type="text" id="player-name-input" placeholder="請輸入您的姓名" 
+                           class="w-full md:w-2/3 px-5 py-3 border-2 border-blue-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-400 text-lg md:text-xl shadow-md transition-all duration-300 text-center"
+                           maxlength="20" aria-label="玩家姓名輸入框">
+                </div>
+                <button id="start-button" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-10 rounded-xl text-xl md:text-2xl transition-all duration-300 transform hover:scale-105 shadow-xl bounce-slow" aria-label="開始測驗">
+                    <i class="fas fa-play mr-3"></i>開始測驗
+                </button>
+            </main>
+            <footer class="absolute bottom-4 text-gray-500 text-sm">
+                Copyright © Liyuchiutiger Gongminshen
+            </footer>
+        </div>
+
+        <!-- Instructions Screen (測驗說明畫面) -->
+        <div id="instructions-screen" class="hidden min-h-screen flex flex-col items-center justify-center p-6">
+            <main class="bg-white rounded-xl shadow-xl p-8 md:p-10 max-w-4xl mx-auto fade-in">
+                <div class="text-center mb-8">
+                    <div class="mb-6">
+                        <div class="relative inline-block">
+                            <i class="fas fa-hand-holding-heart text-6xl text-blue-600"></i>
+                            <i class="fas fa-balance-scale absolute -top-1 -right-1 text-2xl text-green-500"></i>
+                        </div>
+                    </div>
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 leading-tight">
+                        人性尊嚴與人權保障<br>神對優測驗系統
+                    </h1>
+                    <div class="flex items-center justify-center mb-6">
+                        <i class="fas fa-graduation-cap text-xl text-blue-500 mr-2"></i>
+                        <p class="text-lg text-gray-600">尊嚴維護神對優，人權保障神無憂</p>
+                        <i class="fas fa-lightbulb text-xl text-yellow-500 ml-2"></i>
+                    </div>
+                    <div class="border-t border-gray-200 pt-6">
+                        <i class="fas fa-clipboard-list text-4xl text-blue-600 mb-3 pop-in"></i>
+                        <h2 class="text-2xl font-bold text-gray-800">測驗說明</h2>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6 text-gray-700 text-lg mb-8">
+                    <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500 shadow-md slide-in-left">
+                        <div class="flex items-center mb-3">
+                            <i class="fas fa-list-ul text-2xl text-blue-600 mr-3"></i>
+                            <h3 class="font-bold text-xl">選擇題</h3>
+                        </div>
+                        <p>每題 10 分，請從 A、B、C、D 四個選項中選出正確答案。</p>
+                    </div>
+                    <div class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500 shadow-md slide-in-left animation-delay-200ms">
+                        <div class="flex items-center mb-3">
+                            <i class="fas fa-brain text-2xl text-green-600 mr-3"></i>
+                            <h3 class="font-bold text-xl">情境問答題</h3>
+                        </div>
+                        <p>每題 10 分，閱讀情境後思考答案，點擊「顯示答案」查看正解。</p>
+                    </div>
+                </div>
+                <div class="bg-yellow-50 p-6 rounded-lg border-l-4 border-yellow-500 mb-8 shadow-md slide-in-up animation-delay-400ms">
+                    <div class="flex items-center">
+                        <i class="fas fa-info-circle text-2xl text-yellow-600 mr-3"></i>
+                        <div>
+                            <p class="font-semibold">測驗資訊</p>
+                            <p>共 10 題，總分 100 分。測驗過程中可隨時查看分數與進度。</p>
+                            <p class="text-sm text-yellow-700 mt-2">
+                                <i class="fas fa-trophy mr-1"></i>
+                                達到 80 分以上可下載完成證書！
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button id="start-quiz-button" class="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-4 px-8 rounded-xl text-xl transition-all duration-300 transform hover:scale-105 shadow-lg" aria-label="開始作答">
+                        <i class="fas fa-rocket mr-2"></i>開始作答
+                    </button>
+                </div>
+            </main>
+            <footer class="absolute bottom-4 text-gray-500 text-sm">
+                Copyright © Liyuchiutiger Gongminshen
+            </footer>
+        </div>
+
+        <!-- Quiz Screen (測驗進行畫面) -->
+        <div id="quiz-screen" class="hidden min-h-screen flex flex-col p-6">
+            <!-- Quiz Header -->
+            <header class="max-w-4xl mx-auto w-full bg-white rounded-xl shadow-lg p-6 mb-6 fade-in">
+                <div class="text-center mb-4">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 flex items-center justify-center">
+                        <i class="fas fa-hand-holding-heart text-blue-600 mr-3"></i>
+                        人性尊嚴與人權保障<br>神對優測驗系統
+                        <i class="fas fa-balance-scale text-green-500 ml-3"></i>
+                    </h2>
+                    <p class="text-gray-600 mt-2 text-sm md:text-base">
+                        <i class="fas fa-user-circle mr-2"></i>挑戰者：<span id="display-player-name" class="font-semibold text-blue-700"></span>
+                    </p>
+                </div>
+                <div class="flex flex-wrap justify-between items-center mb-4 gap-y-2">
+                    <div class="flex items-center text-lg md:text-xl font-semibold text-gray-700">
+                        <i class="fas fa-star text-yellow-500 mr-2"></i>
+                        <span>目前分數：<span id="current-score" class="text-blue-600">0</span> 分</span>
+                    </div>
+                    <div class="flex items-center text-lg md:text-xl font-semibold text-gray-700">
+                        <i class="fas fa-list-ol text-blue-500 mr-2"></i>
+                        <span>題數：<span id="question-number">1</span> / 10</span>
+                    </div>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-4">
+                    <div id="progress-bar" class="bg-gradient-to-r from-blue-500 to-blue-600 h-4 rounded-full progress-bar flex items-center justify-end pr-2" style="width: 0%">
+                        <i class="fas fa-person-walking text-white text-xs"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Question Card -->
+            <main class="flex-grow max-w-4xl mx-auto w-full">
+                <div id="question-card" class="bg-white rounded-xl shadow-xl p-6 md:p-8 slide-in-up">
+                    <h3 id="question-title" class="text-xl md:text-2xl font-bold text-gray-800 mb-6"></h3>
+                    <div id="question-content"></div>
+                </div>
+
+                <!-- Feedback -->
+                <div id="feedback" class="hidden mt-6 p-4 rounded-lg text-center font-semibold text-lg slide-in-up"></div>
+
+                <!-- Next Button -->
+                <div id="next-button-container" class="hidden text-center mt-6 slide-in-up">
+                    <button id="next-button" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-3 px-6 rounded-xl text-lg md:text-xl transition-all duration-300 transform hover:scale-105 shadow-lg" aria-label="下一題">
+                        <i class="fas fa-arrow-right mr-2"></i>下一題
+                    </button>
+                </div>
+            </main>
+            <footer class="text-center mt-8 text-gray-500 text-sm">
+                Copyright © Liyuchiutiger Gongminshen
+            </footer>
+        </div>
+
+        <!-- Scenario Challenge Screen (情境題挑戰畫面) -->
+        <div id="scenario-screen" class="hidden min-h-screen flex flex-col items-center justify-center p-6">
+            <main class="text-center fade-in">
+                <div class="text-8xl mb-6 bounce-animation">
+                    <i class="fas fa-scale-balanced text-orange-500"></i>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-exclamation-triangle text-yellow-500 mr-3"></i>
+                    情境題挑戰！
+                    <i class="fas fa-exclamation-triangle text-yellow-500 ml-3"></i>
+                </h2>
+                <p class="text-xl md:text-2xl text-gray-600 mb-8 flex items-center justify-center">
+                    <i class="fas fa-brain text-purple-500 mr-3"></i>
+                    準備好面對社會情境了嗎？
+                    <i class="fas fa-question-circle text-blue-500 ml-3"></i>
+                </p>
+                <button id="start-scenario-button" class="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white font-bold py-4 px-8 rounded-xl text-xl transition-all duration-300 transform hover:scale-105 shadow-xl" aria-label="進入情境題">
+                    <i class="fas fa-play mr-2"></i>進入情境題
+                </button>
+            </main>
+            <footer class="absolute bottom-4 text-gray-500 text-sm">
+                Copyright © Liyuchiutiger Gongminshen
+            </footer>
+        </div>
+
+        <!-- Results Screen (結果畫面) -->
+        <div id="results-screen" class="hidden min-h-screen flex flex-col items-center justify-center p-6">
+            <main class="bg-white rounded-xl shadow-xl p-8 md:p-10 max-w-3xl mx-auto text-center fade-in">
+                <div class="mb-6">
+                    <i class="fas fa-flag-checkered text-5xl text-gray-800 mb-4 pop-in"></i>
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-800">測驗完成！</h2>
+                </div>
+                <div class="text-6xl mb-6 pop-in" id="result-emoji">
+                    <!-- Emoji will be dynamically set -->
+                </div>
+                <div class="bg-blue-50 p-6 rounded-lg mb-6 shadow-inner slide-in-up animation-delay-200ms">
+                    <p class="text-2xl md:text-3xl font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-star text-yellow-500 mr-2"></i>
+                        您的最終得分是：<span id="final-score" class="text-blue-600 font-extrabold">0</span> 分 / 100 分
+                    </p>
+                    <p id="result-message" class="text-xl md:text-2xl text-gray-600"></p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-4 slide-in-up animation-delay-400ms">
+                    <button id="restart-quiz-button" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-3 px-6 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-lg" aria-label="重新測驗">
+                        <i class="fas fa-redo mr-2"></i>重新測驗
+                    </button>
+                    <button id="show-detailed-answers-button" class="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-3 px-6 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-lg" aria-label="查看詳解">
+                        <i class="fas fa-book-open mr-2"></i>查看詳解
+                    </button>
+                    <button id="certificate-btn" class="hidden bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-white font-bold py-3 px-6 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-lg" aria-label="下載證書">
+                        <i class="fas fa-trophy mr-2"></i>下載證書
+                    </button>
+                </div>
+            </main>
+            <footer class="absolute bottom-4 text-gray-500 text-sm">
+                Copyright © Liyuchiutiger Gongminshen
+            </footer>
+        </div>
+
+        <!-- Certificate Form Modal (證書表單彈窗) -->
+        <div id="certificate-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+            <div class="bg-white rounded-xl shadow-2xl p-8 md:p-10 max-w-md mx-4 fade-in">
+                <div class="text-center mb-6">
+                    <i class="fas fa-trophy text-5xl text-yellow-500 mb-4 pop-in"></i>
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-800">下載證書</h3>
+                    <p class="text-gray-600 mt-2 text-lg">請輸入您的姓名以製作專屬證書</p>
+                </div>
+                <div class="mb-6">
+                    <label for="certificate-name" class="block text-base md:text-lg font-medium text-gray-700 mb-2">
+                        <i class="fas fa-user mr-2 text-blue-500"></i>姓名
+                    </label>
+                    <input type="text" id="certificate-name" placeholder="輸入姓名" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg shadow-sm text-center" maxlength="20" aria-label="證書姓名輸入框">
+                </div>
+                <div class="flex space-x-4">
+                    <button id="cancel-certificate-button" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 shadow-md" aria-label="取消下載證書">
+                        <i class="fas fa-times mr-2"></i>取消
+                    </button>
+                    <button id="download-certificate-button" class="flex-1 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 shadow-md" aria-label="下載">
+                        <i class="fas fa-download mr-2"></i>下載
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Answers Screen (詳解畫面) -->
+        <div id="detailed-answers-screen" class="hidden min-h-screen flex flex-col p-6">
+            <main class="flex-grow max-w-4xl mx-auto w-full">
+                <div class="bg-white rounded-xl shadow-xl p-8 fade-in">
+                    <div class="text-center mb-8">
+                        <i class="fas fa-book-open text-5xl text-blue-600 mb-4 pop-in"></i>
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800">測驗詳解</h2>
+                        <p class="text-gray-600 mt-2 text-lg">
+                            <i class="fas fa-lightbulb mr-2"></i>
+                            詳細解答與說明
+                        </p>
+                    </div>
+                    <div id="detailed-content" class="space-y-6"></div>
+                    <div class="text-center mt-8">
+                        <button id="back-to-results-button" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-3 px-6 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-lg" aria-label="返回結果頁">
+                            <i class="fas fa-arrow-left mr-2"></i>返回結果頁
+                        </button>
+                    </div>
+                </div>
+            </main>
+            <footer class="text-center mt-8 text-gray-500 text-sm">
+                Copyright © Liyuchiutiger Gongminshen
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements (Cached for better performance)
+        const splashScreen = document.getElementById('splash-screen');
+        const instructionsScreen = document.getElementById('instructions-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const scenarioScreen = document.getElementById('scenario-screen');
+        const resultsScreen = document.getElementById('results-screen');
+        const certificateModal = document.getElementById('certificate-modal');
+        const detailedAnswersScreen = document.getElementById('detailed-answers-screen');
+
+        const playerNameInput = document.getElementById('player-name-input');
+        const displayPlayerName = document.getElementById('display-player-name');
+        const startButton = document.getElementById('start-button');
+        const startQuizButton = document.getElementById('start-quiz-button');
+        const startScenarioButton = document.getElementById('start-scenario-button');
+        const nextButton = document.getElementById('next-button');
+        const restartQuizButton = document.getElementById('restart-quiz-button');
+        const showDetailedAnswersButton = document.getElementById('show-detailed-answers-button');
+        const certificateBtn = document.getElementById('certificate-btn');
+        const cancelCertificateButton = document.getElementById('cancel-certificate-button');
+        const downloadCertificateButton = document.getElementById('download-certificate-button');
+        const backToResultsButton = document.getElementById('back-to-results-button');
+
+        const questionNumberSpan = document.getElementById('question-number');
+        const currentScoreSpan = document.getElementById('current-score');
+        const progressBar = document.getElementById('progress-bar');
+        const questionTitle = document.getElementById('question-title');
+        const questionContent = document.getElementById('question-content');
+        const feedbackDiv = document.getElementById('feedback');
+        const nextButtonContainer = document.getElementById('next-button-container');
+
+        const finalScoreSpan = document.getElementById('final-score');
+        const resultMessage = document.getElementById('result-message');
+        const resultEmoji = document.getElementById('result-emoji');
+        const certificateNameInput = document.getElementById('certificate-name');
+        const detailedContent = document.getElementById('detailed-content');
+
+        // Game state
+        let playerName = '';
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userAnswers = []; // 儲存使用者答案和詳情
+        let isScenarioPhase = false; // 是否進入情境題階段
+        let shuffledMultipleChoiceQuestions = []; // 洗牌後的選擇題
+        let shuffledScenarioQuestions = []; // 洗牌後的情境題
+
+        // Web Audio API Context
+        let audioContext;
+        function initAudioContext() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        // 播放正確音效 (上升音調)
+        function playCorrectSound() {
+            initAudioContext();
+            if (!audioContext) return;
+
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.type = 'sine'; // 正弦波
+            const now = audioContext.currentTime;
+            const duration = 0.2; // 短暫音效
+
+            // 頻率從 C5 升到 G5
+            oscillator.frequency.setValueAtTime(523.25, now);
+            oscillator.frequency.linearRampToValueAtTime(783.99, now + duration);
+
+            // 增益曲線：快速起音，快速衰減
+            gainNode.gain.setValueAtTime(0, now);
+            gainNode.gain.linearRampToValueAtTime(0.5, now + 0.05);
+            gainNode.gain.linearRampToValueAtTime(0, now + duration);
+
+            oscillator.start(now);
+            oscillator.stop(now + duration);
+        }
+
+        // 播放錯誤音效 (下降音調，略帶嗡嗡聲)
+        function playIncorrectSound() {
+            initAudioContext();
+            if (!audioContext) return;
+
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.type = 'square'; // 方波，聲音較尖銳
+            const now = audioContext.currentTime;
+            const duration = 0.3; // 略長的音效
+
+            // 頻率從 A#4 降到 F4
+            oscillator.frequency.setValueAtTime(466.16, now);
+            oscillator.frequency.linearRampToValueAtTime(349.23, now + duration);
+
+            // 增益曲線：快速起音，快速衰減
+            gainNode.gain.setValueAtTime(0, now);
+            gainNode.gain.linearRampToValueAtTime(0.4, now + 0.05);
+            gainNode.gain.linearRampToValueAtTime(0, now + duration);
+
+            oscillator.start(now);
+            oscillator.stop(now + duration);
+        }
+
+        // 播放完成音效 (短旋律)
+        function playFinishSound() {
+            initAudioContext();
+            if (!audioContext) return;
+
+            const now = audioContext.currentTime;
+            // 簡短的旋律 (E5, G5, C6)
+            const notes = [
+                { frequency: 659.25, duration: 0.15 },
+                { frequency: 783.99, duration: 0.15 },
+                { frequency: 1046.50, duration: 0.3 }
+            ];
+
+            let startTime = now;
+            notes.forEach(note => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(note.frequency, startTime);
+
+                gainNode.gain.setValueAtTime(0, startTime);
+                gainNode.gain.linearRampToValueAtTime(0.3, startTime + 0.02);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + note.duration);
+
+                oscillator.start(startTime);
+                oscillator.stop(startTime + note.duration);
+
+                startTime += note.duration + 0.02; // 音符間隔
+            });
+        }
+
+
+        // Questions data from 康軒B1L1.html, adapted for new theme and structure
+        const multipleChoiceQuestions = [
+            {
+                question: "在人權觀念中，「人性尊嚴」的核心精神是什麼？",
+                options: [
+                    "(A) 個人能夠獲得財富和權力",
+                    "(B) 每個人都是獨立自主的個體，具有存在的意義與價值，不應被當成他人的工具",
+                    "(C) 個人可以隨意對待他人而無需負責",
+                    "(D) 政府必須提供所有國民的食衣住行"
+                ],
+                correct: 1,
+                explanation: "人性尊嚴強調每個人都是獨立自主的個體，有其存在意義與價值，不應被物化或工具化，且應受平等尊重。"
+            },
+            {
+                question: "關於「人權」的敘述，哪一項最符合其核心精神？",
+                options: [
+                    "(A) 是政府賜予國民的權利",
+                    "(B) 是與生俱來且應受到普遍性保障的各項權利，不因國籍、種族、性別等因素而有不同",
+                    "(C) 僅限於經濟富裕國家公民享有的權利",
+                    "(D) 只包括言論自由和投票權"
+                ],
+                correct: 1,
+                explanation: "人權是普世價值，是人類與生俱來應享有的各項權利，且應受到普遍性保障，不因任何個人特質而有所差異。"
+            },
+            {
+                question: "為什麼我們說「保障人權就是維護人性尊嚴」？",
+                options: [
+                    "(A) 兩者毫無關聯，是獨立的概念",
+                    "(B) 人權保障是維護人性尊嚴的手段與目的",
+                    "(C) 人性尊嚴比人權保障更重要",
+                    "(D) 人權保障只是一種法律條文，與人性尊嚴無關"
+                ],
+                correct: 1,
+                explanation: "人權與人性尊嚴是緊密相連的。唯有讓人權受到保障，才能確保人類的尊嚴不受侵犯，自由地追求自己的價值。"
+            },
+            {
+                question: "小禾長大後，可以自由選擇成為「剪輯師」或「程式設計師」。這體現了哪一種重要的人權？",
+                options: [
+                    "(A) 受教育權",
+                    "(B) 財產權",
+                    "(C) 選擇生活方式與人生方向的權利",
+                    "(D) 受保護權"
+                ],
+                correct: 2,
+                explanation: "小禾可以依照自己的興趣和專長，選擇將來的職業，這是她自主決定生活方式與人生方向的權利，也呼應了人性尊嚴中「可以選擇自己想要的生活方式和人生方向」的面向。"
+            },
+            {
+                question: "小禾從小接種疫苗、定期健康檢查。政府提供這些服務，是為了保障人民的哪種基本人權？",
+                options: [
+                    "(A) 提供公民政治參與的機會",
+                    "(B) 提供基本生活保障，保障兒少的生存與健康",
+                    "(C) 確保言論自由",
+                    "(D) 維護國家安全"
+                ],
+                correct: 1,
+                explanation: "政府提供疫苗與健康檢查，是為了保障人民的基本生存與健康權利，這是政府提供基本生活保障的重要一環。"
+            },
+            {
+                question: "為了維護全體公民的人權，民主國家的政府通常會採取多種措施。以下哪一項『不是』常見的政府作法？",
+                options: [
+                    "(A) 制定法律禁止他人或政府侵害人權",
+                    "(B) 積極規劃各項政策，提供人民基本生活保障",
+                    "(C) 允許特定族群享有特權，以維持社會秩序",
+                    "(D) 將基本人權的保障規範在憲法中"
+                ],
+                correct: 2,
+                explanation: "政府維護人權應遵守「平等原則」，不允許特定族群享有特權，以免造成歧視，這與人權的普遍性保障原則相違背。"
+            }
+        ];
+
+        const scenarioQuestions = [
+            {
+                question: "在經典童話《仙度瑞拉》中，她遭受繼母不公平對待，包括被限制飲食、居住環境惡劣、強迫勞動等。這些情節主要違反了兒童權利公約的哪些原則？",
+                scenario: "在一個經典童話故事中，一名兒童遭受繼母與繼姐們的長期不公平對待，其生活基本所需（如飲食、居住）被限制，並被強迫進行超負荷勞動，與其他家庭成員的待遇形成鮮明對比。",
+                answer: "仙度瑞拉的遭遇涵蓋了多項違反：被繼母差別對待（禁止歧視原則），飲食和居住環境不佳（保障生存及發展原則），以及繼母未以仙度瑞拉的最佳利益為考量（維護最佳利益原則）。"
+            },
+            {
+                question: "仙度瑞拉在故事中被繼母和姐姐任意使喚，宛如僕人，個人自由和參與社交的機會都被剝奪。這種待遇最嚴重侵犯了她的哪項基本權利？",
+                scenario: "承上題情境，仙度瑞拉在家庭中被當作僕役，個人意志和行動自由受限，無法自主決定生活，也無法參與社交活動。這種情況對她的基本權利造成了什麼樣的嚴重侵犯？",
+                answer: "將仙度瑞拉當作僕人，剝奪其自由與參與權，使其無法自主決定生活方式，完全違反了人性尊嚴中「不應被當成他人的工具」的核心精神。這也直接侵犯了她的自由權和發展權。"
+            },
+            {
+                question: "除了政府的努力，作為社會的一份子，我們每個人在日常生活中應該如何共同維護人權？",
+                scenario: "在我們的日常生活中，會遇到各種不同背景、文化和觀點的人。當面對潛在的歧視或不公時，作為個體，我們能做些什麼來促進所有人的人權？",
+                answer: "人權與尊嚴的保障不能只靠國家，每個人都應積極尊重與維護自己和他人的權利，讓不同性別、族群與文化的人們都能在平等的機會中，擁有符合人性尊嚴的生活。這包括發聲、支持受害者、教育他人以及避免偏見。"
+            },
+            {
+                question: "一份針對兒少的幸福感調查顯示，有近一半的兒少認為「父母沒有聽進他們的話」。這個結果最能反映社會在哪一方面需要加強對兒少權利的保障？",
+                scenario: "某項針對青少年的社會調查結果顯示， 상당수의青少年覺得他們在家庭、學校或社群中表達的意見，並沒有得到成年人的認真傾聽和考量。這說明了在保障兒少權利方面，社會需要在哪個環節做出改進？",
+                answer: "「不認為父母有聽進他們的話」直接指向兒少表達意見的權利未被充分尊重與傾聽，這與兒童權利公約的「尊重兒少意見原則」有關。加強這一方面，能讓兒少感受到自身價值的被認可，有助於其健全發展。"
+            }
+        ];
+
+        // Utility function to shuffle an array (Fisher-Yates shuffle)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]; // ES6 陣列解構交換
+            }
+            return array;
+        }
+
+        // Function to show a specific screen and hide others
+        function showScreen(screenId) {
+            const allScreens = [splashScreen, instructionsScreen, quizScreen, scenarioScreen, resultsScreen, certificateModal, detailedAnswersScreen];
+            allScreens.forEach(screen => {
+                if (screen) { // Ensure screen element exists
+                    if (screen.id === screenId) {
+                        screen.classList.remove('hidden');
+                        // For screens that animate in, ensure the animation is re-triggered
+                        const mainContent = screen.querySelector('main > div, main > form, .max-w-4xl.mx-auto');
+                        if (mainContent) {
+                            mainContent.classList.remove('fade-in', 'slide-in-up', 'pop-in');
+                            void mainContent.offsetWidth; // 觸發重繪 (reflow) 以重啟動畫
+                            mainContent.classList.add('fade-in'); // 預設使用 fade-in
+                        }
+                    } else {
+                        screen.classList.add('hidden');
+                    }
+                }
+            });
+        }
+
+        function showInstructions() {
+            playerName = playerNameInput.value.trim();
+            if (!playerName) {
+                alert('請輸入您的姓名才能開始測驗喔！');
+                playerNameInput.focus();
+                return;
+            }
+            displayPlayerName.textContent = playerName; // 顯示玩家姓名在測驗畫面
+            certificateNameInput.value = playerName; // 證書表單預填姓名
+            showScreen('instructions-screen');
+            initAudioContext(); // 在第一次互動時初始化 AudioContext
+        }
+
+        function startQuiz() {
+            showScreen('quiz-screen');
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = [];
+            isScenarioPhase = false;
+            certificateBtn.classList.add('hidden'); // 重置證書按鈕狀態
+
+            // 每次開始測驗時，重新洗牌題目
+            shuffledMultipleChoiceQuestions = shuffleArray([...multipleChoiceQuestions]);
+            shuffledScenarioQuestions = shuffleArray([...scenarioQuestions]);
+            showQuestion();
+            playCorrectSound(); // Play a sound for quiz start
+        }
+
+        function showQuestion() {
+            const totalQuestions = multipleChoiceQuestions.length + scenarioQuestions.length;
+            const currentTotalQuestionNumber = currentQuestionIndex + 1;
+            
+            questionNumberSpan.textContent = currentTotalQuestionNumber;
+            progressBar.style.width = (currentTotalQuestionNumber / totalQuestions * 100) + '%';
+            
+            questionContent.innerHTML = ''; // 清除舊內容
+            feedbackDiv.classList.add('hidden');
+            nextButtonContainer.classList.add('hidden');
+
+            if (!isScenarioPhase && currentQuestionIndex < shuffledMultipleChoiceQuestions.length) {
+                showMultipleChoiceQuestion();
+            } else if (isScenarioPhase && (currentQuestionIndex - shuffledMultipleChoiceQuestions.length) < shuffledScenarioQuestions.length) {
+                showScenarioQuestion();
+            } else {
+                showResults(); // 理論上不應該走到這裡，作為保底
+            }
+        }
+
+        function showMultipleChoiceQuestion() {
+            const question = shuffledMultipleChoiceQuestions[currentQuestionIndex];
+            questionTitle.textContent = `第 ${currentQuestionIndex + 1} 題`;
+            
+            const optionsHtml = `
+                <p class="text-lg md:text-xl text-gray-700 mb-6 font-medium">${question.question}</p>
+                <div class="space-y-3">
+                    ${question.options.map((option, index) => `
+                        <button data-index="${index}" class="option-button w-full text-left p-4 border-2 border-gray-200 rounded-lg bg-white hover:border-blue-400 hover:bg-blue-50 transition-all duration-300 text-base md:text-lg font-normal shadow-sm" aria-label="選項 ${option}">
+                            ${option}
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+            
+            questionContent.innerHTML = optionsHtml;
+            document.querySelectorAll('.option-button').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    selectAnswer(parseInt(event.target.dataset.index));
+                });
+            });
+        }
+
+        function showScenarioQuestion() {
+            const questionIndexInScenario = currentQuestionIndex - shuffledMultipleChoiceQuestions.length;
+            const question = shuffledScenarioQuestions[questionIndexInScenario];
+            questionTitle.textContent = `第 ${currentQuestionIndex + 1} 題 - 情境挑戰`;
+            
+            const scenarioPart = question.scenario ? `
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded-md shadow-sm">
+                    <p class="text-gray-700 text-base md:text-lg"><i class="fas fa-exclamation-triangle text-yellow-600 mr-2"></i>情境說明：${question.scenario}</p>
+                </div>
+            ` : '';
+
+            const content = `
+                <p class="text-lg md:text-xl text-gray-700 mb-4 font-medium">${question.question}</p>
+                ${scenarioPart}
+                <div id="scenario-answer-container" class="mt-6 text-center">
+                    <button id="show-answer-button" class="bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-bold py-3 px-6 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-lg" aria-label="顯示答案">
+                        <i class="fas fa-eye mr-2"></i>顯示答案
+                    </button>
+                </div>
+            `;
+            
+            questionContent.innerHTML = content;
+            document.getElementById('show-answer-button').addEventListener('click', showScenarioAnswer);
+        }
+
+        function selectAnswer(selectedIndex) {
+            const question = shuffledMultipleChoiceQuestions[currentQuestionIndex];
+            const buttons = document.querySelectorAll('.option-button');
+            
+            // 禁用所有按鈕
+            buttons.forEach(button => button.disabled = true);
+            
+            if (selectedIndex === question.correct) {
+                playCorrectSound(); // 播放正確音效
+                buttons[selectedIndex].classList.add('correct');
+                score += 10;
+                currentScoreSpan.textContent = score;
+                showFeedback('✅ 恭喜您，答對了！+10分！', 'bg-green-100 text-green-800');
+            } else {
+                playIncorrectSound(); // 播放錯誤音效
+                buttons[selectedIndex].classList.add('incorrect');
+                buttons[question.correct].classList.add('correct'); // 顯示正確答案
+                showFeedback(`❌ 答錯了！正確答案是 ${question.options[question.correct]}。請繼續加油！`, 'bg-red-100 text-red-800');
+            }
+            
+            userAnswers.push({
+                type: 'multipleChoice',
+                question: question.question,
+                options: question.options,
+                userAnswerIndex: selectedIndex,
+                correctAnswerIndex: question.correct,
+                isCorrect: selectedIndex === question.correct,
+                explanation: question.explanation
+            });
+            
+            nextButtonContainer.classList.remove('hidden');
+        }
+
+        function showScenarioAnswer() {
+            const questionIndexInScenario = currentQuestionIndex - shuffledMultipleChoiceQuestions.length;
+            const question = shuffledScenarioQuestions[questionIndexInScenario];
+            
+            // 禁用「顯示答案」按鈕
+            const showAnswerButton = document.getElementById('show-answer-button');
+            showAnswerButton.disabled = true;
+            showAnswerButton.classList.remove('hover:from-orange-700', 'hover:to-orange-800', 'transform', 'hover:scale-105', 'shadow-lg');
+            showAnswerButton.classList.add('opacity-70', 'cursor-not-allowed');
+
+            const answerCard = document.createElement('div');
+            answerCard.className = 'bg-green-50 border-l-4 border-green-400 p-4 mt-6 rounded-md shadow-md pop-in animation-delay-100ms';
+            answerCard.innerHTML = `
+                <h4 class="font-semibold text-green-800 mb-2 text-lg md:text-xl"><i class="fas fa-check-circle text-green-600 mr-2"></i>參考答案：</h4>
+                <p class="text-green-700 text-base md:text-lg whitespace-pre-wrap">${question.answer}</p>
+            `;
+            
+            questionContent.appendChild(answerCard);
+            
+            playCorrectSound(); // 播放正確音效 (情境題顯示答案也視為一種學習正確答案)
+            score += 10;
+            currentScoreSpan.textContent = score;
+            showFeedback('✅ +10分！您已完成本題學習。', 'bg-green-100 text-green-800');
+            
+            userAnswers.push({
+                type: 'scenario',
+                question: question.question,
+                scenario: question.scenario,
+                answer: question.answer,
+                isCorrect: true // 情境題顯示答案即視為答對得分
+            });
+            
+            nextButtonContainer.classList.remove('hidden');
+        }
+
+        function showFeedback(message, className) {
+            feedbackDiv.textContent = message;
+            feedbackDiv.className = `mt-6 p-4 rounded-lg text-center font-semibold text-lg slide-in-up ${className}`;
+            feedbackDiv.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            const totalMultipleChoice = shuffledMultipleChoiceQuestions.length;
+            const totalScenario = shuffledScenarioQuestions.length;
+
+            if (!isScenarioPhase && currentQuestionIndex >= totalMultipleChoice) {
+                // 從選擇題階段過渡到情境題挑戰畫面
+                showScreen('scenario-screen');
+                isScenarioPhase = true;
+                currentQuestionIndex = totalMultipleChoice; // 重設索引，指向情境題的第一題
+            } else if (isScenarioPhase && (currentQuestionIndex - totalMultipleChoice) >= totalScenario) {
+                // 所有題目完成
+                showResults();
+            } else {
+                // 繼續下一題
+                showQuestion();
+            }
+        }
+
+        function startScenarioQuestions() {
+            showScreen('quiz-screen');
+            showQuestion(); // 顯示第一道情境題
+        }
+
+        function showResults() {
+            playFinishSound(); // 播放測驗完成音效
+            showScreen('results-screen');
+            
+            finalScoreSpan.textContent = score;
+            
+            let message, emoji;
+            if (score >= 90) {
+                message = `恭喜您，${playerName}！人權達人，太棒了！`;
+                emoji = '<i class="fas fa-trophy text-yellow-500 animate-bounce"></i>';
+            } else if (score >= 70) {
+                message = `表現優異，${playerName}！再接再厲，您離達人只差一步！`;
+                emoji = '<i class="fas fa-medal text-orange-500 animate-pulse"></i>';
+            } else {
+                message = `別灰心，${playerName}！多練習才能成為人權達人喔！`;
+                emoji = '<i class="fas fa-book-reader text-blue-500 animate-spin-slow"></i>';
+            }
+            
+            resultMessage.textContent = message;
+            resultEmoji.innerHTML = emoji;
+            
+            // 分數達到 80 分以上才顯示證書按鈕
+            if (score >= 80) {
+                certificateBtn.classList.remove('hidden');
+            } else {
+                certificateBtn.classList.add('hidden');
+            }
+        }
+
+        function restartQuiz() {
+            showScreen('splash-screen'); // 回到起始畫面，重新輸入姓名
+            playerNameInput.value = ''; // 清空姓名輸入框
+        }
+
+        function showDetailedAnswers() {
+            showScreen('detailed-answers-screen');
+            
+            let content = '';
+            
+            userAnswers.forEach((answer, index) => {
+                const questionNumber = index + 1;
+                // Since questions are shuffled, we need to find the correct original question from the respective shuffled array
+                let originalQuestion;
+                if (answer.type === 'multipleChoice') {
+                    originalQuestion = shuffledMultipleChoiceQuestions.find(q => q.question === answer.question);
+                } else if (answer.type === 'scenario') {
+                    originalQuestion = shuffledScenarioQuestions.find(q => q.question === answer.question);
+                }
+
+
+                if (answer.type === 'multipleChoice' && originalQuestion) {
+                    content += `
+                        <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm slide-in-up animation-delay-${index * 100}ms">
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-list-ul text-blue-600 mr-2"></i>
+                                <h4 class="font-semibold text-lg md:text-xl text-gray-800">第 ${questionNumber} 題：${originalQuestion.question}</h4>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded mb-3">
+                                <p class="text-base text-gray-700 mb-1">
+                                    <i class="fas fa-user-check mr-1 text-purple-600"></i>您的答案：${originalQuestion.options[answer.userAnswerIndex]} 
+                                    ${answer.isCorrect ? '<i class="fas fa-check-circle text-green-600 ml-2"></i>' : '<i class="fas fa-times-circle text-red-600 ml-2"></i>'}
+                                </p>
+                                <p class="text-base text-green-700">
+                                    <i class="fas fa-check-double mr-1 text-green-600"></i>正確答案：${originalQuestion.options[answer.correctAnswerIndex]}
+                                </p>
+                            </div>
+                            <div class="bg-blue-50 p-3 rounded">
+                                <p class="text-base text-gray-800">
+                                    <i class="fas fa-lightbulb text-yellow-500 mr-1"></i>詳解：${originalQuestion.explanation}
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                } else if (answer.type === 'scenario' && originalQuestion) {
+                    content += `
+                        <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm slide-in-up animation-delay-${index * 100}ms">
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-brain text-purple-600 mr-2"></i>
+                                <h4 class="font-semibold text-lg md:text-xl text-gray-800">第 ${questionNumber} 題 - 情境題：${originalQuestion.question}</h4>
+                            </div>
+                            ${originalQuestion.scenario ? `<div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-3 rounded-md">
+                                <i class="fas fa-exclamation-triangle text-yellow-600 mr-1"></i>
+                                <span class="text-base text-gray-700">${originalQuestion.scenario}</span>
+                            </div>` : ''}
+                            <div class="bg-green-50 p-3 rounded">
+                                <p class="text-base text-green-700 whitespace-pre-wrap">
+                                    <i class="fas fa-check-circle mr-1"></i>參考答案：${originalQuestion.answer}
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            detailedContent.innerHTML = content;
+        }
+
+        function showCertificateForm() {
+            certificateNameInput.value = playerName; // 確保姓名已預填
+            showScreen('certificate-modal');
+            certificateNameInput.focus();
+        }
+        
+        function closeCertificateForm() {
+            showScreen('results-screen'); // 返回結果畫面
+        }
+
+        function downloadCertificate() {
+            const certUserName = certificateNameInput.value.trim();
+            
+            if (!certUserName) {
+                alert('請輸入您的姓名才能下載證書！');
+                certificateNameInput.focus();
+                return;
+            }
+            
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = 1200; // 高解析度，適用於列印
+            canvas.height = 850;
+            
+            // 背景漸變
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // 邊框 (金色漸變效果)
+            const goldGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            goldGradient.addColorStop(0, '#ffd700');
+            goldGradient.addColorStop(0.5, '#ffed4e');
+            goldGradient.addColorStop(1, '#ffd700');
+            ctx.strokeStyle = goldGradient;
+            ctx.lineWidth = 15; // 較粗的邊框
+            ctx.strokeRect(30, 30, canvas.width - 60, canvas.height - 60);
+
+            ctx.strokeStyle = '#ffed4e'; // 較淺的內層邊框
+            ctx.lineWidth = 5;
+            ctx.strokeRect(45, 45, canvas.width - 90, canvas.height - 90);
+
+            // 文字樣式
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            
+            // 標題
+            ctx.font = 'bold 72px "Noto Sans TC", Arial';
+            ctx.fillText('完成證書', canvas.width / 2, 160);
+            
+            // 副標題
+            ctx.font = '36px "Noto Sans TC", Arial';
+            ctx.fillText('Certificate of Completion', canvas.width / 2, 210);
+            
+            // 主要文字
+            ctx.font = '48px "Noto Sans TC", Arial';
+            ctx.fillText('茲證明', canvas.width / 2, 280);
+            
+            // 玩家姓名
+            ctx.font = 'bold 64px "Noto Sans TC", Arial';
+            ctx.fillStyle = '#ffd700'; // 金色
+            ctx.fillText(certUserName, canvas.width / 2, 360);
+            
+            // 成就文字
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 42px "Noto Sans TC", Arial';
+            ctx.fillText('已成功完成', canvas.width / 2, 440);
+            ctx.fillText('「人性尊嚴與人權保障神對優測驗系統」', canvas.width / 2, 500);
+            
+            // 分數
+            ctx.font = 'bold 60px "Noto Sans TC", Arial';
+            ctx.fillStyle = '#ffd700';
+            ctx.fillText(`得分：${score} 分`, canvas.width / 2, 590);
+            
+            // 日期
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '28px "Noto Sans TC", Arial';
+            const today = new Date();
+            const dateStr = `${today.getFullYear()}年${today.getMonth() + 1}月${today.getDate()}日`;
+            ctx.fillText(`頒發日期：${dateStr}`, canvas.width / 2, 670);
+            
+            // 頒發單位 (預留位置)
+            ctx.font = '24px "Noto Sans TC", Arial';
+            ctx.fillText('Copyright © Liyuchiutiger Gongminshen', canvas.width / 2, 750);
+            
+            // 裝飾元素 (使用文字符號)
+            ctx.fillStyle = '#ffd700';
+            ctx.font = '80px Arial';
+            ctx.fillText('★', 180, 470);
+            ctx.fillText('★', canvas.width - 180, 470);
+            
+            ctx.font = '40px Arial';
+            ctx.fillText('★', 100, 250);
+            ctx.fillText('★', canvas.width - 100, 250);
+            ctx.fillText('★', 100, 680);
+            ctx.fillText('★', canvas.width - 100, 680);
+            
+           
+            // 下載證書
+            const link = document.createElement('a');
+            link.download = `人性尊嚴與人權保障證書_${certUserName}_${score}分_${dateStr}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+            
+            closeCertificateForm();
+        }
+        
+        function mascotClick() {
+            // 產生漂浮愛心效果
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    createFloatingHeart();
+                }, i * 150);
+            }
+            
+            const messages = [
+                "🤝人性尊嚴與人權，我們的神隊友💪", 
+                "公民好神！我會遵守公民神會員守則！",
+                "努力向上、勇往直前、不畏艱難，我要成為公民神！",
+                "公民神有三力：注意力、記憶力、戰鬥力！",
+                "🌟尊重與保障，學習使人強大🌟", 
+                "理解人性尊嚴，從尊重他人開始！", 
+                "人權保障是普世價值，不分你我！", 
+                "故事中的情境，教會我們權利的重要！" 
+            ];
+            
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            
+            const bubble = document.createElement('div');
+            bubble.textContent = randomMessage;
+            bubble.style.cssText = `
+                position: fixed;
+                bottom: 120px;
+                left: 20px;
+                background: rgba(0, 0, 0, 0.85);
+                color: white;
+                padding: 10px 15px;
+                border-radius: 25px;
+                font-size: 14px;
+                font-weight: bold;
+                z-index: 1001;
+                animation: popIn 0.3s ease-out;
+                pointer-events: none;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            `;
+            
+            document.body.appendChild(bubble);
+            
+            setTimeout(() => {
+                bubble.style.animation = 'fadeOut 0.3s ease-out forwards';
+                setTimeout(() => {
+                    if (document.body.contains(bubble)) {
+                        document.body.removeChild(bubble);
+                    }
+                }, 300);
+            }, 2500); // 顯示 2.5 秒
+        }
+        
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '<i class="fas fa-heart text-red-500 text-2xl"></i>'; 
+            heart.style.cssText = `
+                position: fixed;
+                bottom: 60px;
+                left: ${20 + Math.random() * 60}px; /* 愛心水平分散 */
+                z-index: 1001;
+                pointer-events: none;
+                animation: floatUp 2s ease-out forwards;
+                opacity: 0.9;
+            `;
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes floatUp {
+                    0% {
+                        opacity: 1;
+                        transform: translateY(0) scale(1);
+                    }
+                    100% {
+                        opacity: 0;
+                        transform: translateY(-120px) scale(1.5); /* 向上浮動更高 */
+                    }
+                }
+                @keyframes fadeOut {
+                    from { opacity: 1; }
+                    to { opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                if (document.body.contains(heart)) {
+                    document.body.removeChild(heart);
+                }
+            }, 2000);
+        }
+
+        // 創建浮動背景元素
+        function createFloatingElements() {
+            const elementContainer = document.getElementById('floating-elements');
+            // 替換為與人性尊嚴、人權相關的圖標
+            const elements = [
+                'fas fa-person', 'fas fa-hands-holding-child', 'fas fa-scale-balanced', 'fas fa-gavel',
+                'fas fa-heart', 'fas fa-star', 'fas fa-seedling', 'fas fa-lightbulb',
+                'fas fa-globe', 'fas fa-peace', 'fas fa-handshake', 'fas fa-users'
+            ];
+            
+            function addElement() {
+                const element = document.createElement('i');
+                const randomElement = elements[Math.floor(Math.random() * elements.length)];
+                element.className = `element-icon ${randomElement}`;
+                element.style.left = Math.random() * 100 + '%';
+                element.style.animationDuration = (12 + Math.random() * 8) + 's'; // 不同的動畫持續時間
+                element.style.fontSize = Math.random() * 1.5 + 1.5 + 'rem'; // 不同的字體大小
+                elementContainer.appendChild(element);
+                
+                // 動畫結束後移除元素
+                setTimeout(() => {
+                    if (elementContainer.contains(element)) {
+                        elementContainer.removeChild(element);
+                    }
+                }, parseFloat(element.style.animationDuration) * 1000);
+            }
+            
+            // 添加初始元素
+            for (let i = 0; i < 10; i++) { // 更多初始元素
+                setTimeout(addElement, i * 1500); // 錯開初始元素出現時間
+            }
+            
+            // 持續添加元素
+            setInterval(addElement, 2000); // 更頻繁地添加新元素
+        }
+
+        // Event Listeners (事件監聽器)
+        document.addEventListener('DOMContentLoaded', function() {
+            createFloatingElements(); // Changed from createFloatingVehicles
+
+            // 輸入框按下 Enter 鍵觸發開始
+            playerNameInput.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // 阻止默認的換行行為
+                    startButton.click(); // 觸發開始按鈕的點擊事件
+                }
+            });
+            certificateNameInput.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    downloadCertificateButton.click();
+                }
+            });
+
+            startButton.addEventListener('click', showInstructions);
+            startQuizButton.addEventListener('click', startQuiz);
+            startScenarioButton.addEventListener('click', startScenarioQuestions);
+            nextButton.addEventListener('click', nextQuestion);
+            restartQuizButton.addEventListener('click', restartQuiz);
+            showDetailedAnswersButton.addEventListener('click', showDetailedAnswers);
+            certificateBtn.addEventListener('click', showCertificateForm);
+            cancelCertificateButton.addEventListener('click', closeCertificateForm);
+            downloadCertificateButton.addEventListener('click', downloadCertificate);
+            backToResultsButton.addEventListener('click', showResults);
+        });
+    </script>
+</body>
+</html>

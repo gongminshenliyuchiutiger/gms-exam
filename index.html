@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>公民好神素養學習系統</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles and animations - Consistent with your quiz pages */
+        body {
+            box-sizing: border-box;
+            overflow-x: hidden;
+            font-family: 'Noto Sans TC', sans-serif;
+            background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%239ebee2" fill-opacity="0.1" fill-rule="evenodd"%3E%3Cpath d="M0 0h30v30H0V0zm10 10h10v10H10V10zm10 20h10v10H20V30zm-10 10h10v10H10V40z"/%3E%3C/g%3E%3C/svg%3E');
+            background-repeat: repeat;
+            background-attachment: fixed;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+        @keyframes bounceSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            will-change: transform; 
+        }
+
+        .fade-in { animation: fadeIn 0.6s ease-out forwards; }
+        .slide-in-up { animation: slideInUp 0.7s ease-out forwards; }
+        .pop-in { animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; }
+        .bounce-slow { animation: bounceSlow 1.5s infinite ease-in-out alternate; }
+
+        .animation-delay-100ms { animation-delay: 0.1s; }
+        .animation-delay-200ms { animation-delay: 0.2s; }
+        .animation-delay-300ms { animation-delay: 0.3s; }
+        .animation-delay-400ms { animation-delay: 0.4s; }
+        .animation-delay-500ms { animation-delay: 0.5s; }
+
+        /* Mascot Styling - Consistent */
+        .mascot {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 80px;
+            height: 80px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            animation: mascotIdle 2s ease-in-out infinite alternate;
+        }
+        .mascot:hover {
+            animation: mascotGlow 1s ease-in-out infinite alternate, mascotShake 0.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px #ff6b6b) drop-shadow(0 0 30px #4ecdc4) drop-shadow(0 0 40px #45b7d1) drop-shadow(0 0 50px #96ceb4);
+        }
+        @keyframes mascotIdle {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes mascotGlow {
+            0% { filter: drop-shadow(0 0 10px #ff6b6b) drop-shadow(0 0 20px #4ecdc4); transform: scale(1); }
+            25% { filter: drop-shadow(0 0 15px #4ecdc4) drop-shadow(0 0 25px #45b7d1); transform: scale(1.05); }
+            50% { filter: drop-shadow(0 0 20px #45b7d1) drop-shadow(0 0 30px #96ceb4); transform: scale(1.1); }
+            75% { filter: drop-shadow(0 0 15px #96ceb4) drop-shadow(0 0 25px #feca57); transform: scale(1.05); }
+            100% { filter: drop-shadow(0 0 10px #feca57) drop-shadow(0 0 20px #ff6b6b); transform: scale(1); }
+        }
+        @keyframes mascotShake {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            25% { transform: translateX(-2px) rotate(-1deg); }
+            50% { transform: translateX(2px) rotate(1deg); }
+            75% { transform: translateX(-1px) rotate(-0.5deg); }
+        }
+        
+        /* Floating Background Elements - Consistent */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .element-icon {
+            position: absolute;
+            color: rgba(59, 130, 246, 0.08);
+            animation: float 15s infinite linear;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+        .element-icon:nth-child(odd) { animation-direction: reverse; }
+        .element-icon:nth-child(2n) { animation-delay: -5s; color: rgba(16, 185, 129, 0.08); }
+        .element-icon:nth-child(3n) { animation-delay: -10s; color: rgba(245, 158, 11, 0.08); }
+        .element-icon:nth-child(4n) { animation-delay: -2s; color: rgba(239, 68, 68, 0.08); }
+        .element-icon:nth-child(5n) { animation-delay: -7s; color: rgba(139, 92, 246, 0.08); }
+
+        /* General button styling for links */
+        .quiz-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #3f51b5; /* 深藍色 */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-decoration: none; /* Remove underline for links */
+        }
+        .quiz-button:hover {
+            background-color: #303f9f; /* 懸停時顏色加深 */
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-blue-50 font-sans text-gray-800">
+    <div id="app" class="min-h-screen flex flex-col items-center justify-center p-6 relative">
+        <!-- Floating Elements Background -->
+        <div class="floating-elements" id="floating-elements"></div>
+        
+        <!-- Mascot -->
+        <img src="image/LiyuChillGuy.svg" alt="吉祥物" class="mascot" onerror="this.style.display='none';" title="點我有驚喜！" onclick="mascotClick()">
+        
+        <main class="text-center max-w-5xl mx-auto fade-in">
+            <div class="mb-8">
+                <div class="relative inline-block">
+                    <i class="fas fa-book-open text-8xl md:text-9xl text-blue-600 drop-shadow-lg"></i>
+                    <i class="fas fa-graduation-cap absolute -top-4 -right-4 text-4xl md:text-5xl text-green-500 animate-pulse"></i>
+                </div>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-gray-800 mb-6 leading-tight drop-shadow-md">
+                公民好神素養學習系統
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-600 mb-12 slide-in-up animation-delay-100ms">
+                <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>探索公民議題，提升社會參與度！
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Quiz 1 Card: 人性尊嚴與人權保障 -->
+                <div class="bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-300ms">
+                    <i class="fas fa-hands-holding-heart text-6xl text-purple-600 mb-4 pop-in"></i>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3">人性尊嚴與人權保障：神對優測驗系統</h2>
+                    <p class="text-gray-700 mb-6">透過情境探討，深入理解人權的核心價值與保障機制。</p>
+                    <a href="康軒B1L1_人性尊嚴與人權保障.html" class="quiz-button">
+                        <i class="fas fa-play mr-2"></i>開始學習
+                    </a>
+                </div>
+
+                <!-- Quiz 2 Card: 性別平等 -->
+                <div class="bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-500ms">
+                    <i class="fas fa-venus-mars text-6xl text-pink-500 mb-4 pop-in animation-delay-100ms"></i>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3">性別平等：神對優測驗系統</h2>
+                    <p class="text-gray-700 mb-6">辨識性別刻板印象、偏見與歧視，共創公平正義社會。</p>
+                    <a href="康軒B1L2_性別平等.html" class="quiz-button">
+                        <i class="fas fa-play mr-2"></i>開始學習
+                    </a>
+                </div>
+            </div>
+        </main>
+        <footer class="absolute bottom-4 text-gray-500 text-sm mt-12">
+            Copyright © Liyuchiutiger Gongminshen
+        </footer>
+    </div>
+
+    <script>
+        // Web Audio API Context (for mascot click sound, if needed)
+        let audioContext;
+        function initAudioContext() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        // Mascot click function - Consistent with your quiz pages
+        function mascotClick() {
+            initAudioContext(); // Ensure audio context is initialized on user interaction
+
+            // Play a simple click sound (optional, for feedback)
+            if (audioContext) {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.1);
+            }
+
+            // Generate floating heart effect
+            for (let i = 0; i < 3; i++) { // Fewer hearts on homepage
+                setTimeout(() => {
+                    createFloatingHeart();
+                }, i * 100);
+            }
+            
+            const messages = [
+                "歡迎來到公民好神素養學習系統！",
+                "公民好神！我會遵守公民神會員守則！",
+                "努力向上、勇往直前、不畏艱難，我要成為公民神！",
+                "公民神有三力：注意力、記憶力、戰鬥力！",
+                "🌟一起學習，成為更棒的公民！",
+                "探索人權，尊重差異，從這裡開始！"
+            ];
+            
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            
+            const bubble = document.createElement('div');
+            bubble.textContent = randomMessage;
+            bubble.style.cssText = `
+                position: fixed;
+                bottom: 120px;
+                left: 20px;
+                background: rgba(0, 0, 0, 0.85);
+                color: white;
+                padding: 10px 15px;
+                border-radius: 25px;
+                font-size: 14px;
+                font-weight: bold;
+                z-index: 1001;
+                animation: popIn 0.3s ease-out;
+                pointer-events: none;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            `;
+            
+            document.body.appendChild(bubble);
+            
+            setTimeout(() => {
+                bubble.style.animation = 'fadeOut 0.3s ease-out forwards';
+                setTimeout(() => {
+                    if (document.body.contains(bubble)) {
+                        document.body.removeChild(bubble);
+                    }
+                }, 300);
+            }, 2500); // Display for 2.5 seconds
+        }
+        
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '<i class="fas fa-heart text-red-500 text-2xl"></i>'; 
+            heart.style.cssText = `
+                position: fixed;
+                bottom: 60px;
+                left: ${20 + Math.random() * 60}px;
+                z-index: 1001;
+                pointer-events: none;
+                animation: floatUp 2s ease-out forwards;
+                opacity: 0.9;
+            `;
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes floatUp {
+                    0% {
+                        opacity: 1;
+                        transform: translateY(0) scale(1);
+                    }
+                    100% {
+                        opacity: 0;
+                        transform: translateY(-120px) scale(1.5);
+                    }
+                }
+                @keyframes fadeOut {
+                    from { opacity: 1; }
+                    to { opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                if (document.body.contains(heart)) {
+                    document.body.removeChild(heart);
+                }
+            }, 2000);
+        }
+
+        // Create floating background elements - Consistent with your quiz pages
+        function createFloatingElements() {
+            const elementContainer = document.getElementById('floating-elements');
+            const elements = [
+                'fas fa-person', 'fas fa-hands-holding-child', 'fas fa-scale-balanced', 'fas fa-gavel',
+                'fas fa-heart', 'fas fa-star', 'fas fa-seedling', 'fas fa-lightbulb',
+                'fas fa-globe', 'fas fa-peace', 'fas fa-handshake', 'fas fa-users',
+                'fas fa-venus-mars', 'fas fa-genderless', 'fas fa-user-tie', 'fas fa-user-nurse'
+            ];
+            
+            function addElement() {
+                const element = document.createElement('i');
+                const randomElement = elements[Math.floor(Math.random() * elements.length)];
+                element.className = `element-icon ${randomElement}`;
+                element.style.left = Math.random() * 100 + '%';
+                element.style.animationDuration = (12 + Math.random() * 8) + 's';
+                element.style.fontSize = Math.random() * 1.5 + 1.5 + 'rem';
+                elementContainer.appendChild(element);
+                
+                setTimeout(() => {
+                    if (elementContainer.contains(element)) {
+                        elementContainer.removeChild(element);
+                    }
+                }, parseFloat(element.style.animationDuration) * 1000);
+            }
+            
+            for (let i = 0; i < 8; i++) { // Slightly fewer initial elements on homepage
+                setTimeout(addElement, i * 1800);
+            }
+            
+            setInterval(addElement, 2500); // Slightly less frequent addition
+        }
+
+        // Event Listener for DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', function() {
+            createFloatingElements();
+        });
+    </script>
+</body>
+</html>
