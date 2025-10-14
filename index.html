@@ -49,6 +49,8 @@
         .animation-delay-300ms { animation-delay: 0.3s; }
         .animation-delay-400ms { animation-delay: 0.4s; }
         .animation-delay-500ms { animation-delay: 0.5s; }
+        .animation-delay-600ms { animation-delay: 0.6s; } 
+        .animation-delay-700ms { animation-delay: 0.7s; } 
 
         /* Mascot Styling - Consistent */
         .mascot {
@@ -139,7 +141,8 @@
     </style>
 </head>
 <body class="min-h-screen bg-blue-50 font-sans text-gray-800">
-    <div id="app" class="min-h-screen flex flex-col items-center justify-center p-6 relative">
+    <!-- Adjusted padding-bottom for the app container to make space for footer -->
+    <div id="app" class="min-h-screen flex flex-col items-center justify-center px-6 pt-6 pb-32 relative">
         <!-- Floating Elements Background -->
         <div class="floating-elements" id="floating-elements"></div>
         
@@ -160,10 +163,23 @@
                 <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>探索公民議題，提升社會參與度！
             </p>
 
+            <!-- 證書檔案上傳連結區塊 - 已簡化並移到這裡 -->
+            <div class="mt-8 mb-12 flex flex-col md:flex-row items-center justify-center gap-4 slide-in-up animation-delay-300ms max-w-4xl mx-auto px-4">
+                <p class="text-lg md:text-xl text-gray-700 font-semibold mb-0 whitespace-normal text-center md:text-left">
+                    完成測驗了嗎？點擊右方連結，上傳你的公民神證書，記錄你的學習成就！
+                </p>
+                <a href="https://script.google.com/macros/s/AKfycby9QhW9u6OGiN8kXJ_TWqbu9NIb5CFebB9NQmKNryfViuxudlQYiavScRTkfIp8JyAK6Q/exec" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="quiz-button bg-green-600 hover:bg-green-700 whitespace-nowrap">
+                    <i class="fas fa-upload mr-2"></i> 上傳證書檔案
+                </a>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                 <!-- Quiz 1 Card: 人性尊嚴與人權保障 -->
-                <div class="bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-300ms">
-                    <i class="fas fa-hands-holding-heart text-6xl text-purple-600 mb-4 pop-in"></i>
+                <div class="bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-500ms">
+                    <i class="fas fa-scale-balanced text-6xl text-purple-600 mb-4 pop-in"></i>
                     <h2 class="text-2xl font-bold text-gray-800 mb-3">人性尊嚴與人權保障：神對優測驗系統</h2>
                     <p class="text-gray-700 mb-6">透過情境探討，深入理解人權的核心價值與保障機制。</p>
                     <a href="康軒B1L1_人性尊嚴與人權保障.html" class="quiz-button">
@@ -172,7 +188,7 @@
                 </div>
 
                 <!-- Quiz 2 Card: 性別平等 -->
-                <div class="bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-500ms">
+                <div class="bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-700ms">
                     <i class="fas fa-venus-mars text-6xl text-pink-500 mb-4 pop-in animation-delay-100ms"></i>
                     <h2 class="text-2xl font-bold text-gray-800 mb-3">性別平等：神對優測驗系統</h2>
                     <p class="text-gray-700 mb-6">辨識性別刻板印象、偏見與歧視，共創公平正義社會。</p>
@@ -182,7 +198,8 @@
                 </div>
             </div>
         </main>
-        <footer class="absolute bottom-4 text-gray-500 text-sm mt-12">
+        <!-- Footer position adjusted with bottom-8 and app container padding -->
+        <footer class="absolute bottom-8 text-gray-500 text-sm">
             Copyright © Liyuchiutiger Gongminshen
         </footer>
     </div>
@@ -225,9 +242,7 @@
                 "歡迎來到公民好神素養學習系統！",
                 "公民好神！我會遵守公民神會員守則！",
                 "努力向上、勇往直前、不畏艱難，我要成為公民神！",
-                "公民神有三力：注意力、記憶力、戰鬥力！",
-                "🌟一起學習，成為更棒的公民！",
-                "探索人權，尊重差異，從這裡開始！"
+                "公民神有三力：注意力、記憶力、戰鬥力！"
             ];
             
             const randomMessage = messages[Math.floor(Math.random() * messages.length)];
