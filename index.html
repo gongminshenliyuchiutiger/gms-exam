@@ -51,6 +51,16 @@
         .animation-delay-500ms { animation-delay: 0.5s; }
         .animation-delay-600ms { animation-delay: 0.6s; } 
         .animation-delay-700ms { animation-delay: 0.7s; } 
+        .animation-delay-800ms { animation-delay: 0.8s; }
+        .animation-delay-900ms { animation-delay: 0.9s; }
+        .animation-delay-1000ms { animation-delay: 1.0s; }
+        .animation-delay-1100ms { animation-delay: 1.1s; }
+        .animation-delay-1200ms { animation-delay: 1.2s; }
+        .animation-delay-1300ms { animation-delay: 1.3s; }
+        .animation-delay-1400ms { animation-delay: 1.4s; }
+        .animation-delay-1500ms { animation-delay: 1.5s; }
+        .animation-delay-1600ms { animation-delay: 1.6s; }
+
 
         /* Mascot Styling - Consistent */
         .mascot {
@@ -138,6 +148,61 @@
             background-color: #303f9f; /* 懸停時顏色加深 */
             transform: translateY(-2px);
         }
+
+        /* Styles for the sub-label with rounded background */
+        .sub-label {
+            display: inline-block;
+            background-color: #e0f2fe; /* Light blue background */
+            color: #2563eb; /* Blue text color */
+            padding: 4px 10px;
+            border-radius: 9999px; /* Fully rounded */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 600; /* font-semibold */
+            margin-bottom: 0.5rem; /* mb-2 (adjust if needed, was mb-1) */
+            line-height: 1; /* Ensure text is vertically centered */
+        }
+
+        /* Style for the copy icon button (simplified) */
+        .copy-icon-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px; /* fixed width for square button */
+            height: 44px; /* fixed height for square button */
+            color: #6b7280; /* Gray-500 for icon */
+            font-size: 1.3em; /* Larger icon */
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.2s ease;
+            position: relative; /* For tooltip */
+            border-radius: 8px; /* Match other buttons a bit */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* subtle shadow */
+        }
+        .copy-icon-button:hover {
+            color: #4b5563; /* Gray-700 on hover */
+            transform: translateY(-2px);
+        }
+        .copy-icon-button .tooltip {
+            visibility: hidden;
+            background-color: rgba(0,0,0,0.8);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 120%; /* Position above the button */
+            left: 50%;
+            transform: translateX(-50%); /* Center the tooltip */
+            opacity: 0;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+            font-size: 0.8em;
+            pointer-events: none; /* Make sure tooltip doesn't block clicks */
+        }
+        .copy-icon-button:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="min-h-screen bg-blue-50 font-sans text-gray-800">
@@ -159,27 +224,44 @@
             <h1 class="text-4xl md:text-6xl font-extrabold text-gray-800 mb-6 leading-tight drop-shadow-md">
                 公民好神素養學習系統
             </h1>
-            <p class="text-xl md:text-2xl text-gray-600 mb-12 slide-in-up animation-delay-100ms">
+            <p class="text-xl md:text-2xl text-gray-600 mb-8 slide-in-up animation-delay-100ms">
                 <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>探索公民議題，提升社會參與度！
             </p>
 
-            <!-- 證書檔案上傳連結區塊 - 已簡化並移到這裡 -->
+            <!-- Search Bar -->
+            <div class="w-full max-w-xl mx-auto mb-12 slide-in-up animation-delay-200ms">
+                <div class="relative flex items-center shadow-lg rounded-full overflow-hidden">
+                    <i class="fas fa-search text-gray-400 ml-5 mr-3 text-xl"></i>
+                    <input type="text" id="search-input" placeholder="搜尋測驗主題、單元..."
+                           class="w-full py-3 px-2 text-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 border-none rounded-full pr-5"
+                           onkeyup="filterQuizzes()" aria-label="搜尋測驗">
+                </div>
+            </div>
+
+            <!-- 證書檔案上傳連結區塊 -->
             <div class="mt-8 mb-12 flex flex-col md:flex-row items-center justify-center gap-4 slide-in-up animation-delay-300ms max-w-4xl mx-auto px-4">
                 <p class="text-lg md:text-xl text-gray-700 font-semibold mb-0 whitespace-normal text-center md:text-left">
                     完成測驗了嗎？點擊右方連結，上傳你的公民神證書，記錄你的學習成就！
                 </p>
-                <a href="https://script.google.com/macros/s/AKfycby9QhW9u6OGiN8kXJ_TWqbu9NIb5CFebB9NQmKNryfViuxudlQYiavScRTkfIp8JyAK6Q/exec" 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   class="quiz-button bg-green-600 hover:bg-green-700 whitespace-nowrap">
-                    <i class="fas fa-upload mr-2"></i> 上傳證書檔案
-                </a>
+                <div class="flex items-center gap-3">
+                    <a id="upload-link" href="https://script.google.com/macros/s/AKfycby9QhW9u6OGiN8kXJ_TWqbu9NIb5CFebB9NQmKNryfViuxudlQYiavScRTkfIp8JyAK6Q/exec" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="quiz-button bg-green-600 hover:bg-green-700 whitespace-nowrap">
+                        <i class="fas fa-upload mr-2"></i> 上傳證書檔案
+                    </a>
+                    <button class="copy-icon-button" onclick="copyUploadLink()" aria-label="複製上傳證書網址">
+                        <i class="fas fa-copy"></i>
+                        <span class="tooltip" id="copy-tooltip">複製網址</span>
+                    </button>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div id="quiz-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
                 <!-- Quiz 1 Card: 人性尊嚴與人權保障 -->
-                <div class="bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-500ms">
+                <div class="quiz-card bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-500ms">
                     <i class="fas fa-scale-balanced text-6xl text-purple-600 mb-4 pop-in"></i>
+                    <p class="sub-label">康軒B1L1</p>
                     <h2 class="text-2xl font-bold text-gray-800 mb-3">人性尊嚴與人權保障：神對優測驗系統</h2>
                     <p class="text-gray-700 mb-6">透過情境探討，深入理解人權的核心價值與保障機制。</p>
                     <a href="康軒B1L1_人性尊嚴與人權保障.html" class="quiz-button">
@@ -188,14 +270,126 @@
                 </div>
 
                 <!-- Quiz 2 Card: 性別平等 -->
-                <div class="bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-700ms">
+                <div class="quiz-card bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-600ms">
                     <i class="fas fa-venus-mars text-6xl text-pink-500 mb-4 pop-in animation-delay-100ms"></i>
+                    <p class="sub-label">康軒B1L2</p>
                     <h2 class="text-2xl font-bold text-gray-800 mb-3">性別平等：神對優測驗系統</h2>
                     <p class="text-gray-700 mb-6">辨識性別刻板印象、偏見與歧視，共創公平正義社會。</p>
                     <a href="康軒B1L2_性別平等.html" class="quiz-button">
                         <i class="fas fa-play mr-2"></i>開始學習
                     </a>
                 </div>
+
+                <!-- Quiz 3 Card: 家庭生活 (我們都是一家人) -->
+                <div class="quiz-card bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-700ms">
+                    <i class="fas fa-home text-6xl text-blue-500 mb-4 pop-in animation-delay-200ms"></i>
+                    <p class="sub-label">康軒B1L3</p>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3">家庭生活：神對優測驗系統</h2>
+                    <p class="text-gray-700 mb-6">探討多元家庭型態，理解家庭組成與功能的變遷。</p>
+                    <a href="康軒B1L3_我們都是一家人.html" class="quiz-button">
+                        <i class="fas fa-play mr-2"></i>開始學習
+                    </a>
+                </div>
+
+                <!-- Quiz 4 Card: 平權家庭 -->
+                <div class="quiz-card bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-800ms">
+                    <i class="fas fa-handshake-angle text-6xl text-green-600 mb-4 pop-in animation-delay-300ms"></i>
+                    <p class="sub-label">康軒B1L4</p>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3">平權家庭：神對優測驗系統</h2>
+                    <p class="text-gray-700 mb-6">學習家庭中的權利義務與家務分工，共創平等溫馨家庭。</p>
+                    <a href="康軒B1L4_平權家庭.html" class="quiz-button">
+                        <i class="fas fa-play mr-2"></i>開始學習
+                    </a>
+                </div>
+
+                <!-- Quiz 5 Card: 校園生活中的公共參與 -->
+                <div class="quiz-card bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-900ms">
+                    <i class="fas fa-school text-6xl text-red-600 mb-4 pop-in animation-delay-400ms"></i>
+                    <p class="sub-label">康軒B1L5</p>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3">校園生活中的公共參與：神對優測驗系統</h2>
+                    <p class="text-gray-700 mb-6">了解學生自治與公共事務參與，提升校園民主素養。</p>
+                    <a href="康軒B1L5_校園生活中的公共參與.html" class="quiz-button">
+                        <i class="fas fa-play mr-2"></i>開始學習
+                    </a>
+                </div>
+
+                <!-- Quiz 6 Card: 社區與部落 -->
+                <div class="quiz-card bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-1000ms">
+                    <i class="fas fa-city text-6xl text-yellow-600 mb-4 pop-in animation-delay-500ms"></i>
+                    <p class="sub-label">康軒B1L6</p>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3">社區與部落：神對優測驗系統</h2>
+                    <p class="text-gray-700 mb-6">探索社區意識與部落文化，實踐地方公共事務參與。</p>
+                    <a href="康軒B1L6_社區與部落.html" class="quiz-button">
+                        <i class="fas fa-play mr-2"></i>開始學習
+                    </a>
+                </div>
+
+                <!-- Quiz 7 Card: 社會生活中的公民德性 -->
+                <div class="quiz-card bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-1100ms">
+                    <i class="fas fa-people-group text-6xl text-orange-600 mb-4 pop-in animation-delay-600ms"></i>
+                    <p class="sub-label">康軒B2L1</p>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3">社會生活中的公民德性：神對優測驗系統</h2>
+                    <p class="text-gray-700 mb-6">認識社會化過程與公民德性，培養積極公民精神。</p>
+                    <a href="康軒B2L1_社會生活中的公民德性.html" class="quiz-button">
+                        <i class="fas fa-play mr-2"></i>開始學習
+                    </a>
+                </div>
+
+                <!-- Quiz 8 Card: 團體參與中的志願結社 -->
+                <div class="quiz-card bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-1200ms">
+                    <i class="fas fa-handshake text-6xl text-teal-600 mb-4 pop-in animation-delay-700ms"></i>
+                    <p class="sub-label">康軒B2L2</p>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3">團體參與中的志願結社：神對優測驗系統</h2>
+                    <p class="text-gray-700 mb-6">了解志願結社的特徵與影響，學習公民團體參與。</p>
+                    <a href="康軒B2L2_團體參與中的志願結社.html" class="quiz-button">
+                        <i class="fas fa-play mr-2"></i>開始學習
+                    </a>
+                </div>
+                
+                <!-- Quiz 9 Card: 社會文化中的多元尊重 -->
+                <div class="quiz-card bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-1300ms">
+                    <i class="fas fa-globe-asia text-6xl text-indigo-600 mb-4 pop-in animation-delay-800ms"></i>
+                    <p class="sub-label">康軒B2L3</p>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3">社會文化中的多元尊重：神對優測驗系統</h2>
+                    <p class="text-gray-700 mb-6">認識多元文化特性，培養尊重與理解的態度。</p>
+                    <a href="康軒B2L3_社會文化中的多元尊重.html" class="quiz-button">
+                        <i class="fas fa-play mr-2"></i>開始學習
+                    </a>
+                </div>
+
+                <!-- Quiz 10 Card: 社會互動中的社會規範 -->
+                <div class="quiz-card bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-1400ms">
+                    <i class="fas fa-gavel text-6xl text-cyan-600 mb-4 pop-in animation-delay-900ms"></i>
+                    <p class="sub-label">康軒B2L4</p>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3">社會互動中的社會規範：神對優測驗系統</h2>
+                    <p class="text-gray-700 mb-6">探討社會規範的重要性與變遷，維護社會秩序。</p>
+                    <a href="康軒B2L4_社會互動中的社會規範.html" class="quiz-button">
+                        <i class="fas fa-play mr-2"></i>開始學習
+                    </a>
+                </div>
+
+                <!-- Quiz 11 Card: 社會變遷中的公平正義 -->
+                <div class="quiz-card bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-1500ms">
+                    <i class="fas fa-balance-scale-right text-6xl text-purple-700 mb-4 pop-in animation-delay-1000ms"></i>
+                    <p class="sub-label">康軒B2L5</p>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3">社會變遷中的公平正義：神對優測驗系統</h2>
+                    <p class="text-gray-700 mb-6">分析社會不公平現象，思考實現公平正義的途徑。</p>
+                    <a href="康軒B2L5_社會變遷中的公平正義.html" class="quiz-button">
+                        <i class="fas fa-play mr-2"></i>開始學習
+                    </a>
+                </div>
+
+                <!-- Quiz 12 Card: 社會福利中的國家責任 -->
+                <div class="quiz-card bg-white rounded-xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300 slide-in-up animation-delay-1600ms">
+                    <i class="fas fa-hand-holding-usd text-6xl text-lime-600 mb-4 pop-in animation-delay-1100ms"></i>
+                    <p class="sub-label">康軒B2L6</p>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3">社會福利中的國家責任：神對優測驗系統</h2>
+                    <p class="text-gray-700 mb-6">認識社會福利制度與國家責任，共構福利社會。</p>
+                    <a href="康軒B2L6_社會福利中的國家責任.html" class="quiz-button">
+                        <i class="fas fa-play mr-2"></i>開始學習
+                    </a>
+                </div>
+
             </div>
         </main>
         <!-- Footer position adjusted with bottom-8 and app container padding -->
@@ -350,6 +544,49 @@
             
             setInterval(addElement, 2500); // Slightly less frequent addition
         }
+
+        // Search Functionality
+        function filterQuizzes() {
+            const searchInput = document.getElementById('search-input');
+            const filter = searchInput.value.toLowerCase();
+            const quizCards = document.querySelectorAll('.quiz-card');
+
+            quizCards.forEach(card => {
+                const title = card.querySelector('h2').textContent.toLowerCase();
+                const subLabel = card.querySelector('.sub-label').textContent.toLowerCase();
+                const description = card.querySelector('p.text-gray-700').textContent.toLowerCase(); // Specifically target description
+
+                if (title.includes(filter) || subLabel.includes(filter) || description.includes(filter)) {
+                    card.style.display = 'block'; // Show card
+                } else {
+                    card.style.display = 'none';  // Hide card
+                }
+            });
+        }
+
+        // Copy URL Functionality
+        async function copyUploadLink() {
+            // Updated URL as requested
+            const uploadLink = "https://script.google.com/macros/s/AKfycby9QhW9u6OGiN8kXJ_TWqbu9NIb5CFebB9NQmKNryfViuxudlQYiavScRTkfIp8JyAK6Q/exec";
+            const tooltip = document.getElementById('copy-tooltip');
+
+            try {
+                await navigator.clipboard.writeText(uploadLink);
+                tooltip.textContent = '已複製！';
+                // Show tooltip temporarily
+                tooltip.style.visibility = 'visible';
+                tooltip.style.opacity = '1';
+                setTimeout(() => {
+                    tooltip.style.opacity = '0';
+                    tooltip.style.visibility = 'hidden';
+                    tooltip.textContent = '複製網址'; // Reset text
+                }, 2000); // Hide after 2 seconds
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+                alert('複製失敗，請手動複製網址：' + uploadLink);
+            }
+        }
+
 
         // Event Listener for DOMContentLoaded
         document.addEventListener('DOMContentLoaded', function() {

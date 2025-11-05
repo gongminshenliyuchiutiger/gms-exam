@@ -187,6 +187,30 @@
         .element-icon:nth-child(3n) { animation-delay: -10s; color: rgba(245, 158, 11, 0.08); }
         .element-icon:nth-child(4n) { animation-delay: -2s; color: rgba(239, 68, 68, 0.08); }
         .element-icon:nth-child(5n) { animation-delay: -7s; color: rgba(139, 92, 246, 0.08); }
+
+        /* Detailed Answers specific styles */
+        .detailed-option {
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.5rem;
+            background-color: #f3f4f6; /* bg-gray-100 */
+            color: #374151; /* text-gray-700 */
+            border: 1px solid #e5e7eb; /* border-gray-200 */
+        }
+        .detailed-option.user-selected {
+            background-color: #bfdbfe; /* bg-blue-200 */
+            border-color: #3b82f6; /* border-blue-500 */
+            font-weight: bold;
+        }
+        .detailed-option.correct-answer {
+            background-color: #a7f3d0; /* bg-green-200 */
+            border-color: #10b981; /* border-green-500 */
+            font-weight: bold;
+        }
+        .detailed-option.user-selected.incorrect-answer {
+            background-color: #fecaca; /* bg-red-200 */
+            border-color: #ef4444; /* border-red-500 */
+        }
     </style>
 </head>
 <body class="min-h-screen bg-blue-50 font-sans text-gray-800">
@@ -273,9 +297,9 @@
                     <div class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500 shadow-md slide-in-left animation-delay-200ms">
                         <div class="flex items-center mb-3">
                             <i class="fas fa-brain text-2xl text-green-600 mr-3"></i>
-                            <h3 class="font-bold text-xl">情境問答題</h3>
+                            <h3 class="font-bold text-xl">情境選擇題</h3>
                         </div>
-                        <p>每題 10 分，閱讀情境後思考答案，點擊「顯示答案」查看正解。</p>
+                        <p>每題 10 分，閱讀情境後選擇最符合的答案。</p>
                     </div>
                 </div>
                 <div class="bg-yellow-50 p-6 rounded-lg border-l-4 border-yellow-500 mb-8 shadow-md slide-in-up animation-delay-400ms">
@@ -685,22 +709,50 @@
             {
                 question: "在經典童話《仙度瑞拉》中，她遭受繼母不公平對待，包括被限制飲食、居住環境惡劣、強迫勞動等。這些情節主要違反了兒童權利公約的哪些原則？",
                 scenario: "在一個經典童話故事中，一名兒童遭受繼母與繼姐們的長期不公平對待，其生活基本所需（如飲食、居住）被限制，並被強迫進行超負荷勞動，與其他家庭成員的待遇形成鮮明對比。",
-                answer: "仙度瑞拉的遭遇涵蓋了多項違反：被繼母差別對待（禁止歧視原則），飲食和居住環境不佳（保障生存及發展原則），以及繼母未以仙度瑞拉的最佳利益為考量（維護最佳利益原則）。"
+                options: [
+                    "(A) 僅違反了保障生存及發展原則",
+                    "(B) 僅違反了禁止歧視原則",
+                    "(C) 違反了禁止歧視原則、保障生存及發展原則以及維護最佳利益原則",
+                    "(D) 僅違反了尊重兒少意見原則"
+                ],
+                correct: 2,
+                explanation: "仙度瑞拉的遭遇涵蓋了多項違反：被繼母差別對待（禁止歧視原則），飲食和居住環境不佳（保障生存及發展原則），以及繼母未以仙度瑞拉的最佳利益為考量（維護最佳利益原則）。"
             },
             {
                 question: "仙度瑞拉在故事中被繼母和姐姐任意使喚，宛如僕人，個人自由和參與社交的機會都被剝奪。這種待遇最嚴重侵犯了她的哪項基本權利？",
                 scenario: "承上題情境，仙度瑞拉在家庭中被當作僕役，個人意志和行動自由受限，無法自主決定生活，也無法參與社交活動。這種情況對她的基本權利造成了什麼樣的嚴重侵犯？",
-                answer: "將仙度瑞拉當作僕人，剝奪其自由與參與權，使其無法自主決定生活方式，完全違反了人性尊嚴中「不應被當成他人的工具」的核心精神。這也直接侵犯了她的自由權和發展權。"
+                options: [
+                    "(A) 僅侵犯了她的受教育權",
+                    "(B) 侵犯了她的財產權",
+                    "(C) 嚴重侵犯了人性尊嚴中「不應被當成他人的工具」的核心精神，直接剝奪其自由權和發展權",
+                    "(D) 僅侵犯了她的投票權"
+                ],
+                correct: 2,
+                explanation: "將仙度瑞拉當作僕人，剝奪其自由與參與權，使其無法自主決定生活方式，完全違反了人性尊嚴中「不應被當成他人的工具」的核心精神。這也直接侵犯了她的自由權和發展權。"
             },
             {
                 question: "除了政府的努力，作為社會的一份子，我們每個人在日常生活中應該如何共同維護人權？",
                 scenario: "在我們的日常生活中，會遇到各種不同背景、文化和觀點的人。當面對潛在的歧視或不公時，作為個體，我們能做些什麼來促進所有人的人權？",
-                answer: "人權與尊嚴的保障不能只靠國家，每個人都應積極尊重與維護自己和他人的權利，讓不同性別、族群與文化的人們都能在平等的機會中，擁有符合人性尊嚴的生活。這包括發聲、支持受害者、教育他人以及避免偏見。"
+                options: [
+                    "(A) 只要不侵犯他人權利即可，無需積極行動",
+                    "(B) 僅限於捐款給人權組織",
+                    "(C) 積極尊重與維護自己和他人的權利，發聲支持受害者，教育他人並避免偏見",
+                    "(D) 將人權議題完全交由政府處理"
+                ],
+                correct: 2,
+                explanation: "人權與尊嚴的保障不能只靠國家，每個人都應積極尊重與維護自己和他人的權利，讓不同性別、族群與文化的人們都能在平等的機會中，擁有符合人性尊嚴的生活。這包括發聲、支持受害者、教育他人以及避免偏見。"
             },
             {
                 question: "一份針對兒少的幸福感調查顯示，有近一半的兒少認為「父母沒有聽進他們的話」。這個結果最能反映社會在哪一方面需要加強對兒少權利的保障？",
                 scenario: "某項針對青少年的社會調查結果顯示， 상당수의青少年覺得他們在家庭、學校或社群中表達的意見，並沒有得到成年人的認真傾聽和考量。這說明了在保障兒少權利方面，社會需要在哪個環節做出改進？",
-                answer: "「不認為父母有聽進他們的話」直接指向兒少表達意見的權利未被充分尊重與傾聽，這與兒童權利公約的「尊重兒少意見原則」有關。加強這一方面，能讓兒少感受到自身價值的被認可，有助於其健全發展。"
+                options: [
+                    "(A) 加強兒少的經濟扶助",
+                    "(B) 尊重兒少表達意見的權利，讓他們感受到自身價值被認可",
+                    "(C) 提供更多的才藝學習機會",
+                    "(D) 限制兒少上網時間"
+                ],
+                correct: 1,
+                explanation: "「不認為父母有聽進他們的話」直接指向兒少表達意見的權利未被充分尊重與傾聽，這與兒童權利公約的「尊重兒少意見原則」有關。加強這一方面，能讓兒少感受到自身價值的被認可，有助於其健全發展。"
             }
         ];
 
@@ -723,9 +775,12 @@
                         // For screens that animate in, ensure the animation is re-triggered
                         const mainContent = screen.querySelector('main > div, main > form, .max-w-4xl.mx-auto');
                         if (mainContent) {
-                            mainContent.classList.remove('fade-in', 'slide-in-up', 'pop-in');
-                            void mainContent.offsetWidth; // 觸發重繪 (reflow) 以重啟動畫
-                            mainContent.classList.add('fade-in'); // 預設使用 fade-in
+                            // Only re-apply fade-in if it's not already active to avoid flickering
+                            if (!mainContent.classList.contains('fade-in')) {
+                                mainContent.classList.remove('slide-in-up', 'pop-in'); // Remove other potential animations
+                                void mainContent.offsetWidth; // Force reflow to restart animation
+                                mainContent.classList.add('fade-in'); // Apply default fade-in
+                            }
                         }
                     } else {
                         screen.classList.add('hidden');
@@ -778,7 +833,7 @@
             } else if (isScenarioPhase && (currentQuestionIndex - shuffledMultipleChoiceQuestions.length) < shuffledScenarioQuestions.length) {
                 showScenarioQuestion();
             } else {
-                showResults(); // 理論上不應該走到這裡，作為保底
+                showResults(); // 所有題目完成
             }
         }
 
@@ -800,7 +855,7 @@
             questionContent.innerHTML = optionsHtml;
             document.querySelectorAll('.option-button').forEach(button => {
                 button.addEventListener('click', (event) => {
-                    selectAnswer(parseInt(event.target.dataset.index));
+                    selectAnswer(parseInt(event.target.dataset.index), 'multipleChoice');
                 });
             });
         }
@@ -816,28 +871,43 @@
                 </div>
             ` : '';
 
-            const content = `
-                <p class="text-lg md:text-xl text-gray-700 mb-4 font-medium">${question.question}</p>
+            const optionsHtml = `
                 ${scenarioPart}
-                <div id="scenario-answer-container" class="mt-6 text-center">
-                    <button id="show-answer-button" class="bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-bold py-3 px-6 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-lg" aria-label="顯示答案">
-                        <i class="fas fa-eye mr-2"></i>顯示答案
-                    </button>
+                <p class="text-lg md:text-xl text-gray-700 mb-6 font-medium">${question.question}</p>
+                <div class="space-y-3">
+                    ${question.options.map((option, index) => `
+                        <button data-index="${index}" class="option-button w-full text-left p-4 border-2 border-gray-200 rounded-lg bg-white hover:border-blue-400 hover:bg-blue-50 transition-all duration-300 text-base md:text-lg font-normal shadow-sm" aria-label="選項 ${option}">
+                            ${option}
+                        </button>
+                    `).join('')}
                 </div>
             `;
             
-            questionContent.innerHTML = content;
-            document.getElementById('show-answer-button').addEventListener('click', showScenarioAnswer);
+            questionContent.innerHTML = optionsHtml;
+            document.querySelectorAll('.option-button').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    selectAnswer(parseInt(event.target.dataset.index), 'scenario');
+                });
+            });
         }
 
-        function selectAnswer(selectedIndex) {
-            const question = shuffledMultipleChoiceQuestions[currentQuestionIndex];
+        function selectAnswer(selectedIndex, questionType) {
+            let question;
+            if (questionType === 'multipleChoice') {
+                question = shuffledMultipleChoiceQuestions[currentQuestionIndex];
+            } else { // scenario
+                const questionIndexInScenario = currentQuestionIndex - shuffledMultipleChoiceQuestions.length;
+                question = shuffledScenarioQuestions[questionIndexInScenario];
+            }
+
             const buttons = document.querySelectorAll('.option-button');
             
             // 禁用所有按鈕
             buttons.forEach(button => button.disabled = true);
             
-            if (selectedIndex === question.correct) {
+            const isCorrect = selectedIndex === question.correct;
+
+            if (isCorrect) {
                 playCorrectSound(); // 播放正確音效
                 buttons[selectedIndex].classList.add('correct');
                 score += 10;
@@ -851,48 +921,14 @@
             }
             
             userAnswers.push({
-                type: 'multipleChoice',
+                type: questionType,
                 question: question.question,
+                scenario: question.scenario || null, // For scenario questions
                 options: question.options,
                 userAnswerIndex: selectedIndex,
                 correctAnswerIndex: question.correct,
-                isCorrect: selectedIndex === question.correct,
-                explanation: question.explanation
-            });
-            
-            nextButtonContainer.classList.remove('hidden');
-        }
-
-        function showScenarioAnswer() {
-            const questionIndexInScenario = currentQuestionIndex - shuffledMultipleChoiceQuestions.length;
-            const question = shuffledScenarioQuestions[questionIndexInScenario];
-            
-            // 禁用「顯示答案」按鈕
-            const showAnswerButton = document.getElementById('show-answer-button');
-            showAnswerButton.disabled = true;
-            showAnswerButton.classList.remove('hover:from-orange-700', 'hover:to-orange-800', 'transform', 'hover:scale-105', 'shadow-lg');
-            showAnswerButton.classList.add('opacity-70', 'cursor-not-allowed');
-
-            const answerCard = document.createElement('div');
-            answerCard.className = 'bg-green-50 border-l-4 border-green-400 p-4 mt-6 rounded-md shadow-md pop-in animation-delay-100ms';
-            answerCard.innerHTML = `
-                <h4 class="font-semibold text-green-800 mb-2 text-lg md:text-xl"><i class="fas fa-check-circle text-green-600 mr-2"></i>參考答案：</h4>
-                <p class="text-green-700 text-base md:text-lg whitespace-pre-wrap">${question.answer}</p>
-            `;
-            
-            questionContent.appendChild(answerCard);
-            
-            playCorrectSound(); // 播放正確音效 (情境題顯示答案也視為一種學習正確答案)
-            score += 10;
-            currentScoreSpan.textContent = score;
-            showFeedback('✅ +10分！您已完成本題學習。', 'bg-green-100 text-green-800');
-            
-            userAnswers.push({
-                type: 'scenario',
-                question: question.question,
-                scenario: question.scenario,
-                answer: question.answer,
-                isCorrect: true // 情境題顯示答案即視為答對得分
+                isCorrect: isCorrect,
+                explanation: question.explanation || question.answer // Use 'answer' for scenario explanation
             });
             
             nextButtonContainer.classList.remove('hidden');
@@ -970,57 +1006,50 @@
             
             userAnswers.forEach((answer, index) => {
                 const questionNumber = index + 1;
-                // Since questions are shuffled, we need to find the correct original question from the respective shuffled array
-                let originalQuestion;
-                if (answer.type === 'multipleChoice') {
-                    originalQuestion = shuffledMultipleChoiceQuestions.find(q => q.question === answer.question);
-                } else if (answer.type === 'scenario') {
-                    originalQuestion = shuffledScenarioQuestions.find(q => q.question === answer.question);
-                }
+                
+                let optionsHtml = '<div class="mt-4 space-y-2">';
+                answer.options.forEach((option, optionIndex) => {
+                    let optionClass = 'detailed-option';
+                    let icon = '';
 
+                    if (optionIndex === answer.userAnswerIndex && optionIndex === answer.correctAnswerIndex) {
+                        // Correct answer and user selected it
+                        optionClass += ' user-selected correct-answer';
+                        icon = '<i class="fas fa-check-circle text-green-600 ml-2"></i>';
+                    } else if (optionIndex === answer.userAnswerIndex && optionIndex !== answer.correctAnswerIndex) {
+                        // Incorrect answer and user selected it
+                        optionClass += ' user-selected incorrect-answer';
+                        icon = '<i class="fas fa-times-circle text-red-600 ml-2"></i>';
+                    } else if (optionIndex === answer.correctAnswerIndex) {
+                        // Correct answer, user did not select it
+                        optionClass += ' correct-answer';
+                        icon = '<i class="fas fa-check-circle text-green-600 ml-2"></i>';
+                    }
+                    
+                    optionsHtml += `<div class="${optionClass}">${option}${icon}</div>`;
+                });
+                optionsHtml += '</div>';
 
-                if (answer.type === 'multipleChoice' && originalQuestion) {
-                    content += `
-                        <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm slide-in-up animation-delay-${index * 100}ms">
-                            <div class="flex items-center mb-3">
-                                <i class="fas fa-list-ul text-blue-600 mr-2"></i>
-                                <h4 class="font-semibold text-lg md:text-xl text-gray-800">第 ${questionNumber} 題：${originalQuestion.question}</h4>
-                            </div>
-                            <div class="bg-gray-50 p-3 rounded mb-3">
-                                <p class="text-base text-gray-700 mb-1">
-                                    <i class="fas fa-user-check mr-1 text-purple-600"></i>您的答案：${originalQuestion.options[answer.userAnswerIndex]} 
-                                    ${answer.isCorrect ? '<i class="fas fa-check-circle text-green-600 ml-2"></i>' : '<i class="fas fa-times-circle text-red-600 ml-2"></i>'}
-                                </p>
-                                <p class="text-base text-green-700">
-                                    <i class="fas fa-check-double mr-1 text-green-600"></i>正確答案：${originalQuestion.options[answer.correctAnswerIndex]}
-                                </p>
-                            </div>
-                            <div class="bg-blue-50 p-3 rounded">
-                                <p class="text-base text-gray-800">
-                                    <i class="fas fa-lightbulb text-yellow-500 mr-1"></i>詳解：${originalQuestion.explanation}
-                                </p>
-                            </div>
+                content += `
+                    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm slide-in-up animation-delay-${index * 100}ms">
+                        <div class="flex items-center mb-3">
+                            <i class="${answer.type === 'multipleChoice' ? 'fas fa-list-ul text-blue-600' : 'fas fa-brain text-purple-600'} mr-2"></i>
+                            <h4 class="font-semibold text-lg md:text-xl text-gray-800">第 ${questionNumber} 題 ${answer.type === 'scenario' ? '- 情境題' : ''}：${answer.question}</h4>
                         </div>
-                    `;
-                } else if (answer.type === 'scenario' && originalQuestion) {
-                    content += `
-                        <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm slide-in-up animation-delay-${index * 100}ms">
-                            <div class="flex items-center mb-3">
-                                <i class="fas fa-brain text-purple-600 mr-2"></i>
-                                <h4 class="font-semibold text-lg md:text-xl text-gray-800">第 ${questionNumber} 題 - 情境題：${originalQuestion.question}</h4>
-                            </div>
-                            ${originalQuestion.scenario ? `<div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-3 rounded-md">
-                                <i class="fas fa-exclamation-triangle text-yellow-600 mr-1"></i>
-                                <span class="text-base text-gray-700">${originalQuestion.scenario}</span>
-                            </div>` : ''}
-                            <div class="bg-green-50 p-3 rounded">
-                                <p class="text-base text-green-700 whitespace-pre-wrap">
-                                    <i class="fas fa-check-circle mr-1"></i>參考答案：${originalQuestion.answer}
-                                </p>
-                            </div>
+                        ${answer.scenario ? `<div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-3 rounded-md">
+                            <i class="fas fa-exclamation-triangle text-yellow-600 mr-1"></i>
+                            <span class="text-base text-gray-700">${answer.scenario}</span>
+                        </div>` : ''}
+                        
+                        ${optionsHtml}
+
+                        <div class="bg-blue-50 p-3 rounded mt-4">
+                            <p class="text-base text-gray-800">
+                                <i class="fas fa-lightbulb text-yellow-500 mr-1"></i>詳解：${answer.explanation}
+                            </p>
                         </div>
-                    `;
-                }
+                    </div>
+                `;
             });
             
             detailedContent.innerHTML = content;
@@ -1266,7 +1295,7 @@
 
         // Event Listeners (事件監聽器)
         document.addEventListener('DOMContentLoaded', function() {
-            createFloatingElements(); // Changed from createFloatingVehicles
+            createFloatingElements(); 
 
             // 輸入框按下 Enter 鍵觸發開始
             playerNameInput.addEventListener('keypress', function(event) {
